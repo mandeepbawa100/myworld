@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Will You Be My Valentine?</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{
+    background:#f2f2f2;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    min-height:100vh;
+    font-family:'Segoe UI', sans-serif;
+    padding:0;
+    margin:0;
+}
+.browser{
+    width:360px;
+    max-height:90vh;
+    background:#fff;
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:0 20px 40px rgba(0,0,0,.25);
+    display:flex;
+    flex-direction:column;
+}
+.topbar{
+    background:#eaeaea;
+    padding:8px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+.dot{width:12px;height:12px;border-radius:50%;}
+.red{background:#ff5f57}
+.yellow{background:#ffbd2e}
+.green{background:#28c840}
+.address{
+    margin-left:10px;
+    background:#fff;
+    padding:4px 8px;
+    border-radius:6px;
+    font-size:12px;
+    flex:1;
+}
+.content{
+    padding:20px;
+    text-align:center;
+    overflow-y:auto;
+    flex:1;
+}
+
+/* Valentine card */
+.photo{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    object-fit:cover;
+    margin:10px 0;
+}
+#text{
+    font-size:20px;
+    white-space:pre-line;
+    margin:10px 0;
+}
+.buttons{
+    margin-top:15px;
+    display:flex;
+    justify-content:center;
+    gap:15px;
+}
+button{
+    padding:10px 22px;
+    font-size:16px;
+    border:none;
+    border-radius:25px;
+    cursor:pointer;
+    transition:.3s;
+}
+.yes{background:#ff4d6d;color:white;}
+.no{background:#ddd;}
+#couple{
+    display:none;
+    margin-top:15px;
+}
+#couple img{
+    width:160px;
+    height:160px;
+    border-radius:12px;
+    object-fit:cover;
+}
+.heart{
+    font-size:28px;
+    animation:pulse 1s infinite;
+}
+@keyframes pulse{
+    0%{transform:scale(1)}
+    50%{transform:scale(1.2)}
+    100%{transform:scale(1)}
+}
+
+/* Sections */
+.section-title{
+  font-size:22px;
+  color:#ff4d6d;
+  margin:30px 0 10px;
+  font-weight:600;
+}
+
+/* Love cards */
+.love-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+.love-card{
+  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+  color:#fff;
+  padding:12px;
+  border-radius:14px;
+  font-size:14px;
+  text-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+
+/* Gift cards stacked vertically like reels */
+.gift-column{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+.gift-card{
+  background:#fff0f5;
+  border-radius:16px;
+  min-height:140px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  cursor:pointer;
+  transition: all 0.3s ease;
+  overflow:hidden;
+  text-align:center;
+  padding:10px;
+}
+.gift-card img{
+  width:100%;
+  max-height:200px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:8px;
+}
+.gift-card .gift-text{
+  font-size:14px;
+  padding:5px;
+  color:#333;
+}
+.gift-card.expanded{
+  min-height:auto;
+}
+
+/* Secret Surprise Section */
+.surprise-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  justify-content:center;
+  margin:15px 0;
+}
+
+.surprise-buttons button{
+  background:#ffd84d;
+  color:#333;
+  font-size:14px;
+  padding:10px 18px;
+  border-radius:30px;
+  border:none;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.surprise-buttons button:active{
+  transform:scale(0.95);
+}
+
+.surprise-box{
+  display:none;
+  margin-top:15px;
+  background:#eafff5;
+  border-radius:14px;
+  padding:14px;
+  font-size:15px;
+  color:#333;
+  box-shadow:0 6px 16px rgba(0,0,0,0.1);
+  animation:fadeUp 0.4s ease;
+}
+/* Secret Surprises */
+.surprise-list{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin-top:15px;
+}
+
+.surprise-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.surprise-item button{
+  background:#ffd84d;
+  color:#333;
+  font-size:14px;
+  padding:10px 20px;
+  border-radius:30px;
+  border:none;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.surprise-item button:active{
+  transform:scale(0.95);
+}
+
+.surprise-text{
+  display:none;
+  margin-top:10px;
+  background:#eafff5;
+  padding:14px;
+  border-radius:14px;
+  font-size:15px;
+  color:#333;
+  text-align:center;
+  box-shadow:0 6px 16px rgba(0,0,0,0.1);
+  animation:fadeUp 0.35s ease;
+  width:100%;
+}
+
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+
+
+/* Rules & Cute row */
+.rules{
+  background:#fff0f5;
+  border-radius:16px;
+  padding:15px;
+  font-size:14px;
+  margin-top:15px;
+}
+.rules p{margin:6px 0;}
+.cute-row{display:flex;gap:10px;justify-content:center;margin:15px 0;}
+.cute-row img{width:120px;border-radius:14px;}
+</style>
+</head>
+<body>
+
+<div class="browser">
+  <div class="topbar">
+    <div class="dot red"></div>
+    <div class="dot yellow"></div>
+    <div class="dot green"></div>
+    <div class="address">www.myheart.com</div>
+  </div>
+
+
+<!-- 000000000000000000000000000000000000000000000000000000000000000000000000000 -->
+
+    
+  <div class="content">
+    <!-- Valentine card -->
+    <img class="photo" src="img/kiss.gif">
+    <div id="text"></div>
+
+<!-- 000000000000000000000000000000000000000000000000000000000000000000000000000 -->
+      
+    <div class="buttons">
+      <button class="yes" onclick="accept()">Yes ❤️</button>
+      <button class="no" id="no">No 😢</button>
+    </div>
+
+      <!-- 000000000000000000000000000000000000000000000000000000000000000000000000000 -->
+      
+    <div id="couple">
+      <img src="img/gift 3.png" alt="Couple Photo">
+      <div class="heart">💖</div>
+    </div>
+
+      <!-- 000000000000000000000000000000000000000000000000000000000000000000000000000 -->
+
+    <!-- Our Favorite Memories -->
+    <h2 class="section-title">Our Favorite Memories 📸</h2>
+    <p style="font-size:14px;">Click to reveal each memory 💝</p>
+    <div class="gift-column" id="giftColumn"></div>
+
+    <!-- Good choice babu -->
+    <h2 class="section-title">Good choice babu 🥰</h2>
+    <p style="font-size:14px;">You just unlocked unlimited hugs, kisses & cuddles (redeemable very soon 🤞)</p>
+
+      <!-- 000000000000000000000000000000000000000000000000000000000000000000000000000 -->
+    <div class="cute-row">
+      <img src="img/kiss.gif">
+      <img src="img/gig.gif">
+    </div>
+      <!-- 000000000000000000000000000000000000000000000000000000000000000000000000000 -->
+
+    <!-- Too Late Section -->
+    <h2 class="section-title">Wait... do you want to change your mind?</h2>
+    <div id="changeMindButtons" style="margin-bottom:15px; position:relative;">
+      <button class="no" id="tooLateNo">ABSOLUTELY NO 😤</button>
+    </div>
+    <div id="tooLateSection" style="display:none;">
+      <h2 class="section-title">TOO LATE 😤</h2>
+      <div class="rules">
+        <p>❌ No take-backs allowed</p>
+        <p>❌ You’re legally mine now (I checked)</p>
+        <p>❌ Every “no” = 10 extra kisses 💋</p>
+        <p>✅ You’re stuck with me forever 😈</p>
+      </div>
+    </div>
+
+    <!-- Things I Love About You -->
+    <h2 class="section-title">Things I Love About You 🤍</h2>
+    <div class="love-grid">
+      <div class="love-card">Your smile makes my day brighter ✨</div>
+      <div class="love-card">You understand my weird jokes 😌</div>
+      <div class="love-card">Your chaotic energy matches mine 🔥</div>
+      <div class="love-card">You make distance feel meaningless 💕</div>
+      <div class="love-card">You make me 1want to be better 🌱</div>
+      <div class="love-card">You feel like home 🏠</div>
+    </div>
+    
+    
+<!-- Secret Surprises -->
+<h2 class="section-title">Secret Surprises 🎁</h2>
+<p style="font-size:14px;">Click each button for a surprise message 😉</p>
+
+<div class="surprise-list">
+  <div class="surprise-item">
+    <button onclick="toggleSurprise(0)">Surprise #1 💖</button>
+    <div class="surprise-text">I'm behaving… but only because you're not here to distract me 😏💖</div>
+  </div>
+
+  <div class="surprise-item">
+    <button onclick="toggleSurprise(1)">Surprise #2 🌙</button>
+    <div class="surprise-text">If I had you right now, I'd never let you go 🌙🤍</div>
+  </div>
+
+  <div class="surprise-item">
+    <button onclick="toggleSurprise(2)">Surprise #3 🔥</button>
+    <div class="surprise-text">You + Me + Forever = My favorite equation 🔥</div>
+  </div>
+
+  <div class="surprise-item">
+    <button onclick="toggleSurprise(3)">Surprise #4 💋</button>
+    <div class="surprise-text">One kiss from you can fix everything 💋</div>
+  </div>
+</div>
+
+
+<div id="surpriseBox" class="surprise-box"></div>
+
+    <p style="font-size:15px;color:#ff4d6d;">Now you’re stuck with me forever ♾️</p>
+  </div>
+</div>
+
+<script>
+  
+  function toggleSurprise(index){
+  const allTexts = document.querySelectorAll('.surprise-text');
+  const current = allTexts[index];
+
+  // Close all others
+  allTexts.forEach((el,i)=>{
+    if(i !== index) el.style.display = 'none';
+  });
+
+  // Toggle current
+  current.style.display =
+    current.style.display === 'block' ? 'none' : 'block';
+}
+
+  
+  const surpriseMessages = [
+  "I'm behaving… but only because you're not here to distract me 😏💖",
+  "If I had you right now, I'd never let you go 🌙🤍",
+  "You + Me + Forever = My favorite equation 🔥",
+  "One kiss from you can fix everything 💋"
+];
+
+function showSurprise(index){
+  const box = document.getElementById("surpriseBox");
+  box.style.display = "block";
+  box.innerHTML = surpriseMessages[index];
+}
+
+
+<!-- 000000000000000000000000000000000000000000000000000000000000000000000000000 -->
+// Gift cards
+const gifts = [
+  { text: "That late-night call we never wanted to end 🌙", img:"https://raw.githubusercontent.com/VishnuSharmak/love-/main/img/gift%203.png" },
+  { text: "Our first laugh together — unforgettable 😄", img:"https://raw.githubusercontent.com/VishnuSharmak/love-/main/img/gift%203.png" },
+  { text: "Walks in the rain, hands intertwined 🌧️", img:"https://raw.githubusercontent.com/VishnuSharmak/love-/main/img/gift%203.png" }
+];
+
+<!-- 000000000000000000000000000000000000000000000000000000000000000000000000000 -->
+
+const giftColumn = document.getElementById('giftColumn');
+gifts.forEach(g => {
+  const card = document.createElement('div');
+  card.className = 'gift-card';
+  card.innerHTML = '🎁';
+  card.addEventListener('click', ()=>{
+    if(card.classList.contains('expanded')) return;
+    card.classList.add('expanded');
+    card.innerHTML = `<img src="${g.img}"><div class="gift-text">${g.text}</div>`;
+  });
+  giftColumn.appendChild(card);
+});
+
+// Typewriter effect
+const message = "Hey Anjali...\n\nEvery smile of yours\nmeans the world to me.\n\nWill you be my Valentine? 💍";
+let i=0;
+const textEl = document.getElementById('text');
+function typeText(){
+  if(i<message.length){
+    textEl.innerHTML += message.charAt(i);
+    i++;
+    setTimeout(typeText,10);
+  }
+}
+typeText();
+
+// Valentine YES
+function accept(){
+  document.querySelector(".buttons").style.display="none";
+  textEl.innerHTML = "Yaaay! 💕\nI knew it!\nForever starts now ❤️";
+  document.getElementById("couple").style.display="block";
+}
+
+// Valentine NO - move on hover/touch
+const noBtn = document.getElementById('no');
+function moveRandom(btn){
+  const top = Math.random()*300; 
+  const left = Math.random()*150;
+  btn.style.position="absolute";
+  btn.style.top = top+"px";
+  btn.style.left = left+"px";
+}
+noBtn.addEventListener("mouseover", ()=>moveRandom(noBtn));
+noBtn.addEventListener("touchstart", ()=>moveRandom(noBtn));
+
+
+// Too Late ABSOLUTELY NO button - clickable after 2 escapes
+let tooLateClicks = 0;
+const tooLateNo = document.getElementById('tooLateNo');
+
+tooLateNo.addEventListener("click", (e) => {
+  tooLateClicks++;
+
+  // First 2 clicks → escape
+  if (tooLateClicks < 3) {
+    moveRandom(tooLateNo);
+  } 
+  // 3rd click → allow action
+  else {
+    document.getElementById('tooLateSection').style.display = 'block';
+    document.getElementById('changeMindButtons').style.display = 'none';
+  }
+});
+</script>
+
+</body>
+</html>
