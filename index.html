@@ -3,263 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will You Be My Valentine?</title>
+    <title>For My Forever Valentine ❤️</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
     <style>
         :root {
             --primary-pink: #ff4d6d;
             --soft-pink: #ffccd5;
             --hot-pink: #c9184a;
-            --glass: rgba(255, 255, 255, 0.85);
+            --glass: rgba(255, 255, 255, 0.8);
         }
 
         body {
-            background-color: #fff0f3;
+            background: #fff0f3;
             font-family: 'Poppins', sans-serif;
             margin: 0;
             overflow-x: hidden;
-            transition: background-color 1s ease;
+            scroll-behavior: smooth;
         }
 
-        /* Transition Screen */
-        #transition-overlay {
+        /* --- Floating Hearts Background --- */
+        .heart-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-heart {
+            position: absolute;
+            color: var(--soft-pink);
+            font-size: 20px;
+            animation: float 6s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- Page Transitions --- */
+        #transition-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: var(--primary-pink);
             z-index: 9999;
             display: none;
-            justify-content: center;
             align-items: center;
-            color: white;
-            font-size: 3rem;
+            justify-content: center;
+            clip-path: circle(0% at 50% 50%);
+            transition: clip-path 1.2s ease-in-out;
         }
 
-        /* Page 1: The Question */
+        .show-transition {
+            display: flex !important;
+            clip-path: circle(150% at 50% 50%) !important;
+        }
+
+        /* --- Page 1 Style --- */
         #page1 {
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            text-align: center;
             padding: 20px;
         }
 
         .hero-card {
             background: var(--glass);
-            backdrop-filter: blur(10px);
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(15px);
+            padding: 2.5rem;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(255, 77, 109, 0.2);
+            text-align: center;
+            border: 2px solid #fff;
             max-width: 450px;
-            width: 100%;
-            border: 2px solid white;
+            animation: fadeInDown 1s;
         }
 
         .main-gif {
-            width: 180px;
-            height: 180px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
-            margin-bottom: 1.5rem;
-            object-fit: cover;
-            border: 4px solid var(--primary-pink);
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        h1 {
-            font-family: 'Dancing Script', cursive;
-            color: var(--hot-pink);
-            font-size: 2.5rem;
-        }
+        h1 { font-family: 'Dancing Script', cursive; color: var(--hot-pink); }
 
-        .btn-valentine {
-            padding: 12px 35px;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: 0.3s;
-            margin: 10px;
-        }
+        /* --- Page 2 Dashboard --- */
+        #page2 { display: none; padding-top: 50px; padding-bottom: 100px; }
 
-        .btn-yes { background-color: var(--primary-pink); color: white; border: none; }
-        .btn-yes:hover { transform: scale(1.1); background-color: var(--hot-pink); }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* Page 2: The Dashboard (Hidden initially) */
-        #page2 {
-            display: none;
-            padding: 20px 10px;
-            background: linear-gradient(to bottom, #fff0f3, #ffccd5);
-        }
-
-        .section-title {
-            font-family: 'Dancing Script', cursive;
-            color: var(--hot-pink);
-            font-size: 2.2rem;
-            margin: 40px 0 20px;
-            text-align: center;
-        }
-
-        /* Responsive Gallery */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .gallery-item {
+        .memory-card {
             background: white;
-            padding: 8px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
             transition: 0.3s;
         }
 
-        .gallery-item img {
-            width: 100%;
-            aspect-ratio: 1/1;
-            object-fit: cover;
-            border-radius: 10px;
-        }
+        .memory-card:hover { transform: scale(1.03); }
 
-        /* Love Cards */
-        .love-card {
-            background: white;
-            border-left: 5px solid var(--primary-pink);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            font-size: 0.95rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
+        .memory-card img { width: 100%; height: 250px; object-fit: cover; }
 
-        /* Surprise Section */
-        .surprise-btn {
-            width: 100%;
-            background: var(--hot-pink);
+        .gift-box {
+            background: linear-gradient(135deg, #ff4d6d, #ff758f);
             color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .surprise-text {
-            display: none;
-            background: #fff;
-            padding: 15px;
-            border-radius: 0 0 12px 12px;
-            margin-top: -10px;
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
             margin-bottom: 15px;
-            border: 1px dashed var(--primary-pink);
-            animation: fadeIn 0.5s ease;
         }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* Mobile specific tweaks */
-        @media (max-width: 500px) {
-            h1 { font-size: 2rem; }
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+        /* --- Buttons --- */
+        .btn-valentine {
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: 0.3s;
         }
+        .btn-yes { background: var(--primary-pink); color: white; border: none; }
+        .btn-yes:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--primary-pink); }
     </style>
 </head>
 <body>
 
-    <div id="transition-overlay">💖 Sending Love...</div>
+    <div class="heart-bg" id="heartBg"></div>
+
+    <div id="transition-overlay">
+        <h1 class="text-white animate__animated animate__pulse animate__infinite">I Love You! ❤️</h1>
+    </div>
 
     <section id="page1">
         <div class="hero-card">
-            <img src="https://media.tenor.com/9nO9Gk_uGkAAAAAi/tkthao219-bubududu.gif" class="main-gif" alt="Cute Panda">
+            <img src="https://media.tenor.com/9nO9Gk_uGkAAAAAi/tkthao219-bubududu.gif" class="main-gif mb-4">
             <h1 id="typewriter"></h1>
-            <div class="mt-4" style="position: relative; min-height: 100px;">
-                <button class="btn btn-valentine btn-yes" onclick="celebrate()">Yes ❤️</button>
-                <button class="btn btn-valentine btn-secondary" id="noBtn">No 😢</button>
+            <div class="mt-4" style="min-height: 80px;">
+                <button class="btn btn-valentine btn-yes me-2" onclick="startLove()">Yes ❤️</button>
+                <button class="btn btn-valentine btn-light" id="noBtn">No 😢</button>
             </div>
         </div>
     </section>
 
     <section id="page2" class="container">
-        <div class="text-center">
-            <img src="https://media.tenor.com/Gf_i30Y3v0AAAAAi/peach-goma.gif" width="120" alt="Happy">
-            <h1>Yay! Forever Starts Now!</h1>
+        <div class="text-center mb-5 reveal">
+            <img src="https://media.tenor.com/Gf_i30Y3v0AAAAAi/peach-goma.gif" width="150">
+            <h1 class="display-4">You're My Valentine!</h1>
+            <p>Here is a little gallery of us...</p>
         </div>
 
-        <h2 class="section-title">Our Best Moments 📸</h2>
-        <div class="gallery-grid">
-            <div class="gallery-item"><img src="https://via.placeholder.com/300x300?text=Memory+1" alt="Memory"></div>
-            <div class="gallery-item"><img src="https://via.placeholder.com/300x300?text=Memory+2" alt="Memory"></div>
-            <div class="gallery-item"><img src="https://via.placeholder.com/300x300?text=Memory+3" alt="Memory"></div>
-            <div class="gallery-item"><img src="https://via.placeholder.com/300x300?text=Memory+4" alt="Memory"></div>
-            <div class="gallery-item"><img src="https://via.placeholder.com/300x300?text=Memory+5" alt="Memory"></div>
-            <div class="gallery-item"><img src="https://via.placeholder.com/300x300?text=Memory+6" alt="Memory"></div>
+        <div class="row g-4">
+            <div class="col-6 col-md-4 reveal">
+                <div class="memory-card"><img src="https://via.placeholder.com/400x500?text=Us+1"></div>
+            </div>
+            <div class="col-6 col-md-4 reveal">
+                <div class="memory-card"><img src="https://via.placeholder.com/400x500?text=Us+2"></div>
+            </div>
+            <div class="col-6 col-md-4 reveal">
+                <div class="memory-card"><img src="https://via.placeholder.com/400x500?text=Us+3"></div>
+            </div>
+            <div class="col-6 col-md-4 reveal">
+                <div class="memory-card"><img src="https://via.placeholder.com/400x500?text=Us+4"></div>
+            </div>
+            <div class="col-6 col-md-4 reveal">
+                <div class="memory-card"><img src="https://via.placeholder.com/400x500?text=Us+5"></div>
+            </div>
+            <div class="col-6 col-md-4 reveal">
+                <div class="memory-card"><img src="https://via.placeholder.com/400x500?text=Us+6"></div>
+            </div>
         </div>
 
-        <h2 class="section-title">Why I Love You ✨</h2>
-        <div class="love-card">⭐ Your smile is my favorite sight in the world.</div>
-        <div class="love-card">⭐ You make every ordinary moment feel like a movie.</div>
-        <div class="love-card">⭐ You are my safe place and my home.</div>
+        <h2 class="text-center mt-5 mb-4 reveal" style="font-family: 'Dancing Script'; color: var(--hot-pink);">Our Little Secrets 🎁</h2>
+        
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="gift-box reveal" onclick="this.innerHTML='You are the best thing that ever happened to me! 💋'">Click for a Surprise 💌</div>
+                <div class="gift-box reveal" onclick="this.innerHTML='Every day is Valentine\'s day with you. 🌹'">Another Surprise? 🍫</div>
+            </div>
+        </div>
 
-        <h2 class="section-title">Secret Surprises 🎁</h2>
-        <button class="surprise-btn" onclick="toggleS(1)">Promise #1 💖</button>
-        <div class="surprise-text" id="s1">Main hamesha tere naal khadi rahungi, no matter what.</div>
-
-        <button class="surprise-btn" onclick="toggleS(2)">Promise #2 🌙</button>
-        <div class="surprise-text" id="s2">Unlimited cuddles and favorite snacks on demand!</div>
-
-        <button class="surprise-btn" onclick="toggleS(3)">Promise #3 🔥</button>
-        <div class="surprise-text" id="s3">You + Me = Forever. No take-backs!</div>
-
-        <div class="text-center mt-5 mb-5">
-            <p style="color: var(--hot-pink); font-weight: bold;">Now you’re stuck with me forever! ♾️</p>
+        <div class="text-center mt-5 reveal">
+            <p class="h4" style="color: var(--hot-pink); font-family: 'Dancing Script';">Forever & Always ❤️</p>
         </div>
     </section>
 
     <script>
-        // Typewriter Effect
-        const text = "Hi Ladoo... Every smile of yours means the world to me. Will you be my Valentine? 💍";
-        let index = 0;
+        // Create Floating Hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+            document.getElementById('heartBg').appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
+        }
+        setInterval(createHeart, 300);
+
+        // Typewriter
+        const text = "Hey Beautiful... I have a very important question for you. Will you be my Valentine? 💍";
+        let i = 0;
         function type() {
-            if (index < text.length) {
-                document.getElementById("typewriter").innerHTML += text.charAt(index);
-                index++;
+            if (i < text.length) {
+                document.getElementById("typewriter").innerHTML += text.charAt(i);
+                i++;
                 setTimeout(type, 50);
             }
         }
-        window.onload = type;
+        type();
 
-        // No Button Logic
+        // Runaway Button
         const noBtn = document.getElementById('noBtn');
-        noBtn.addEventListener('mouseover', moveButton);
-        noBtn.addEventListener('touchstart', moveButton);
-
-        function moveButton() {
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+        noBtn.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
             noBtn.style.position = 'fixed';
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
-        }
+        });
 
-        // Transition Logic
-        function celebrate() {
+        // The Big Transition
+        function startLove() {
             const overlay = document.getElementById('transition-overlay');
-            overlay.style.display = 'flex';
+            overlay.classList.add('show-transition');
             
             setTimeout(() => {
                 document.getElementById('page1').style.display = 'none';
                 document.getElementById('page2').style.display = 'block';
-                window.scrollTo(0, 0);
-                overlay.style.display = 'none';
+                window.scrollTo(0,0);
+                overlay.style.clipPath = 'circle(0% at 50% 50%)';
+                
+                // Trigger Scroll Reveals
+                handleReveal();
             }, 1500);
         }
 
-        // Surprise Toggles
-        function toggleS(n) {
-            const el = document.getElementById('s' + n);
-            el.style.display = el.style.display === 'block' ? 'none' : 'block';
+        // Scroll Reveal Logic
+        function handleReveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 50) {
+                    el.classList.add('active');
+                }
+            });
         }
+        window.addEventListener('scroll', handleReveal);
     </script>
 </body>
 </html>
