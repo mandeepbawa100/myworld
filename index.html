@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Forever Valentine ❤️</title>
+    <title>My Forever Valentine ❤️</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -11,9 +11,9 @@
     <style>
         :root {
             --primary-pink: #ff4d6d;
-            --soft-pink: #ffccd5;
             --hot-pink: #c9184a;
-            --glass: rgba(255, 255, 255, 0.8);
+            --soft-pink: #ffccd5;
+            --glass: rgba(255, 255, 255, 0.85);
         }
 
         body {
@@ -21,34 +21,30 @@
             font-family: 'Poppins', sans-serif;
             margin: 0;
             overflow-x: hidden;
-            scroll-behavior: smooth;
         }
 
-        /* --- Floating Hearts Background --- */
-        .heart-bg {
+        /* Floating Hearts Background (Global) */
+        #heart-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
-            z-index: -1;
+            z-index: 10;
         }
 
-        .floating-heart {
+        .heart {
             position: absolute;
-            color: var(--soft-pink);
+            color: var(--primary-pink);
             font-size: 20px;
-            animation: float 6s linear infinite;
+            animation: float Up 5s linear infinite;
             opacity: 0;
         }
 
-        @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
         }
 
-        /* --- Page Transitions --- */
+        /* Transitions */
         #transition-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -61,158 +57,150 @@
             transition: clip-path 1.2s ease-in-out;
         }
 
-        .show-transition {
-            display: flex !important;
-            clip-path: circle(150% at 50% 50%) !important;
-        }
-
-        /* --- Page 1 Style --- */
-        #page1 {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+        /* Page Layouts */
+        .page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; }
+        #page2 { display: none; }
 
         .hero-card {
             background: var(--glass);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(10px);
             padding: 2.5rem;
             border-radius: 30px;
-            box-shadow: 0 20px 50px rgba(255, 77, 109, 0.2);
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
             text-align: center;
-            border: 2px solid #fff;
             max-width: 450px;
-            animation: fadeInDown 1s;
+            border: 2px solid white;
+            z-index: 20;
         }
 
-        .main-gif {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 5px solid white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        /* Gallery */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 30px;
         }
 
-        h1 { font-family: 'Dancing Script', cursive; color: var(--hot-pink); }
-
-        /* --- Page 2 Dashboard --- */
-        #page2 { display: none; padding-top: 50px; padding-bottom: 100px; }
-
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        .memory-card {
-            background: white;
-            border-radius: 20px;
+        .img-wrapper {
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-            transition: 0.3s;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: 0.4s;
+            border: 3px solid white;
         }
 
-        .memory-card:hover { transform: scale(1.03); }
+        .img-wrapper:hover { transform: scale(1.05) rotate(2deg); }
+        .img-wrapper img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
 
-        .memory-card img { width: 100%; height: 250px; object-fit: cover; }
+        /* Fullscreen Image Overlay */
+        #lightbox {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+        }
 
-        .gift-box {
-            background: linear-gradient(135deg, #ff4d6d, #ff758f);
-            color: white;
+        #lightbox img { max-width: 90%; max-height: 80%; border: 5px solid white; border-radius: 10px; }
+
+        /* Promises Section */
+        .promise-column {
+            background: white;
             padding: 20px;
             border-radius: 20px;
-            text-align: center;
-            cursor: pointer;
-            margin-bottom: 15px;
+            margin-top: 20px;
+            border-left: 8px solid var(--primary-pink);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 600px;
         }
 
-        /* --- Buttons --- */
-        .btn-valentine {
-            border-radius: 50px;
-            padding: 12px 30px;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-        .btn-yes { background: var(--primary-pink); color: white; border: none; }
-        .btn-yes:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--primary-pink); }
+        h2 { font-family: 'Dancing Script', cursive; color: var(--hot-pink); }
+        .btn-yes { background: var(--primary-pink); color: white; border-radius: 50px; padding: 10px 30px; }
     </style>
 </head>
 <body>
 
-    <div class="heart-bg" id="heartBg"></div>
+    <audio id="mySong" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
 
+    <div id="heart-container"></div>
+    
     <div id="transition-overlay">
-        <h1 class="text-white animate__animated animate__pulse animate__infinite">I Love You! ❤️</h1>
+        <h1 class="text-white animate__animated animate__heartBeat animate__infinite" style="font-family:'Dancing Script'; font-size: 4rem;">I Love You! ❤️</h1>
     </div>
 
-    <section id="page1">
+    <section id="page1" class="page justify-content-center">
         <div class="hero-card">
-            <img src="https://media.tenor.com/9nO9Gk_uGkAAAAAi/tkthao219-bubududu.gif" class="main-gif mb-4">
-            <h1 id="typewriter"></h1>
-            <div class="mt-4" style="min-height: 80px;">
-                <button class="btn btn-valentine btn-yes me-2" onclick="startLove()">Yes ❤️</button>
-                <button class="btn btn-valentine btn-light" id="noBtn">No 😢</button>
+            <img src="https://media.tenor.com/9nO9Gk_uGkAAAAAi/tkthao219-bubududu.gif" class="mb-4" width="150">
+            <h1 id="typewriter" style="font-size: 1.8rem;"></h1>
+            <div class="mt-4">
+                <button class="btn btn-yes me-2" onclick="startEverything()">Yes ❤️</button>
+                <button class="btn btn-light" id="noBtn" style="border-radius:50px;">No 😢</button>
             </div>
         </div>
     </section>
 
-    <section id="page2" class="container">
-        <div class="text-center mb-5 reveal">
-            <img src="https://media.tenor.com/Gf_i30Y3v0AAAAAi/peach-goma.gif" width="150">
-            <h1 class="display-4">You're My Valentine!</h1>
-            <p>Here is a little gallery of us...</p>
+    <section id="page2" class="page">
+        <div class="text-center mb-4">
+            <img src="https://media.tenor.com/Gf_i30Y3v0AAAAAi/peach-goma.gif" width="120">
+            <h1 class="display-5">You're My Valentine!</h1>
+            <p class="text-muted">Click on our memories to see them full size ✨</p>
         </div>
 
-        <div class="row g-4">
-            <div class="col-6 col-md-4 reveal">
-                <div class="memory-card"><img src="https://via.placeholder.com/400x500?text=Us+1"></div>
-            </div>
-            <div class="col-6 col-md-4 reveal">
-                <div class="memory-card"><img src="https://via.placeholder.com/400x500?text=Us+2"></div>
-            </div>
-            <div class="col-6 col-md-4 reveal">
-                <div class="memory-card"><img src="https://via.placeholder.com/400x500?text=Us+3"></div>
-            </div>
-            <div class="col-6 col-md-4 reveal">
-                <div class="memory-card"><img src="https://via.placeholder.com/400x500?text=Us+4"></div>
-            </div>
-            <div class="col-6 col-md-4 reveal">
-                <div class="memory-card"><img src="https://via.placeholder.com/400x500?text=Us+5"></div>
-            </div>
-            <div class="col-6 col-md-4 reveal">
-                <div class="memory-card"><img src="https://via.placeholder.com/400x500?text=Us+6"></div>
-            </div>
+        <div class="gallery-container container">
+            <div class="img-wrapper" onclick="openMe(this)"><img src="img/photo1.jpg" alt="Memory 1"></div>
+            <div class="img-wrapper" onclick="openMe(this)"><img src="img/photo2.jpg" alt="Memory 2"></div>
+            <div class="img-wrapper" onclick="openMe(this)"><img src="img/photo3.jpg" alt="Memory 3"></div>
+            <div class="img-wrapper" onclick="openMe(this)"><img src="img/photo4.jpg" alt="Memory 4"></div>
+            <div class="img-wrapper" onclick="openMe(this)"><img src="img/photo5.jpg" alt="Memory 5"></div>
+            <div class="img-wrapper" onclick="openMe(this)"><img src="img/photo6.jpg" alt="Memory 6"></div>
         </div>
 
-        <h2 class="text-center mt-5 mb-4 reveal" style="font-family: 'Dancing Script'; color: var(--hot-pink);">Our Little Secrets 🎁</h2>
-        
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="gift-box reveal" onclick="this.innerHTML='You are the best thing that ever happened to me! 💋'">Click for a Surprise 💌</div>
-                <div class="gift-box reveal" onclick="this.innerHTML='Every day is Valentine\'s day with you. 🌹'">Another Surprise? 🍫</div>
-            </div>
+        <h2 class="mt-5 text-center">My Promises to You 💍</h2>
+        <div class="promise-column animate__animated animate__fadeInUp">
+            <h5>🤝 Always by your side</h5>
+            <p class="small text-muted">No matter how hard things get, I will be the one holding your hand through it all.</p>
+        </div>
+        <div class="promise-column animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+            <h5>😋 Endless Snacks & Smiles</h5>
+            <p class="small text-muted">I promise to always keep your stomach full and your heart happy with my bad jokes.</p>
+        </div>
+        <div class="promise-column animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+            <h5>🌎 Our Little World</h5>
+            <p class="small text-muted">I promise to build a future where you are the queen of my heart, forever.</p>
         </div>
 
-        <div class="text-center mt-5 reveal">
-            <p class="h4" style="color: var(--hot-pink); font-family: 'Dancing Script';">Forever & Always ❤️</p>
-        </div>
+        <footer class="mt-5 mb-5 text-center">
+            <p style="font-family: 'Dancing Script'; font-size: 1.5rem; color: var(--hot-pink);">Together Forever & Always... ❤️</p>
+        </footer>
     </section>
+
+    <div id="lightbox" onclick="this.style.display='none'">
+        <img id="lightbox-img" src="">
+    </div>
 
     <script>
-        // Create Floating Hearts
+        // Floating Hearts Logic
         function createHeart() {
+            const container = document.getElementById('heart-container');
             const heart = document.createElement('div');
-            heart.classList.add('floating-heart');
+            heart.classList.add('heart');
             heart.innerHTML = '❤️';
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 3 + 3 + 's';
-            document.getElementById('heartBg').appendChild(heart);
-            setTimeout(() => heart.remove(), 6000);
+            heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            container.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
         }
         setInterval(createHeart, 300);
 
         // Typewriter
-        const text = "Hey Beautiful... I have a very important question for you. Will you be my Valentine? 💍";
+        const text = "Hi Ladoo... You make my heart skip a beat every single day. Will you be my Valentine? 💍";
         let i = 0;
         function type() {
             if (i < text.length) {
@@ -226,41 +214,35 @@
         // Runaway Button
         const noBtn = document.getElementById('noBtn');
         noBtn.addEventListener('mouseover', () => {
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 50);
             noBtn.style.position = 'fixed';
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
+            noBtn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+            noBtn.style.top = Math.random() * (window.innerHeight - 50) + 'px';
         });
 
-        // The Big Transition
-        function startLove() {
+        // Start Transition, Music & Page 2
+        function startEverything() {
+            // Play Music
+            document.getElementById('mySong').play();
+
+            // Transition
             const overlay = document.getElementById('transition-overlay');
-            overlay.classList.add('show-transition');
-            
+            overlay.style.display = 'flex';
+            overlay.style.clipPath = 'circle(150% at 50% 50%)';
+
             setTimeout(() => {
                 document.getElementById('page1').style.display = 'none';
-                document.getElementById('page2').style.display = 'block';
+                document.getElementById('page2').style.display = 'flex';
                 window.scrollTo(0,0);
                 overlay.style.clipPath = 'circle(0% at 50% 50%)';
-                
-                // Trigger Scroll Reveals
-                handleReveal();
             }, 1500);
         }
 
-        // Scroll Reveal Logic
-        function handleReveal() {
-            const reveals = document.querySelectorAll('.reveal');
-            reveals.forEach(el => {
-                const windowHeight = window.innerHeight;
-                const elementTop = el.getBoundingClientRect().top;
-                if (elementTop < windowHeight - 50) {
-                    el.classList.add('active');
-                }
-            });
+        // Lightbox Logic
+        function openMe(el) {
+            const imgSrc = el.querySelector('img').src;
+            document.getElementById('lightbox-img').src = imgSrc;
+            document.getElementById('lightbox').style.display = 'flex';
         }
-        window.addEventListener('scroll', handleReveal);
     </script>
 </body>
 </html>
