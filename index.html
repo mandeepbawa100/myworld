@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Forever Valentine ❤️</title>
+    <title>Our Long Distance Love ❤️</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -21,7 +21,6 @@
             font-family: 'Poppins', sans-serif;
             margin: 0;
             overflow-x: hidden;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="%23ff4d6d" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>'), auto;
         }
 
         /* --- Floating Hearts --- */
@@ -36,75 +35,51 @@
         .page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; }
         #page2 { display: none; background: linear-gradient(to bottom, #fff0f3, #ffccd5); }
 
-        /* --- 3D Flip Gallery --- */
+        /* --- Flip Gallery (Memories) --- */
         .gallery-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            width: 100%;
-            max-width: 1000px;
-            perspective: 1000px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px; width: 100%; max-width: 1000px; perspective: 1000px;
         }
-
         .flip-card { width: 100%; height: 350px; cursor: pointer; }
-        .flip-card-inner {
-            position: relative; width: 100%; height: 100%;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
-        }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s; transform-style: preserve-3d; }
         .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
         .flip-card-front, .flip-card-back {
-            position: absolute; width: 100%; height: 100%;
-            backface-visibility: hidden; border-radius: 20px;
-            overflow: hidden; border: 6px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px;
+            border: 6px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
         .flip-card-front img { width: 100%; height: 100%; object-fit: cover; }
         .flip-card-back {
             background: linear-gradient(135deg, var(--primary-pink), var(--hot-pink));
-            color: white; transform: rotateY(180deg);
-            display: flex; flex-direction: column; justify-content: center;
-            align-items: center; padding: 25px; text-align: center;
+            color: white; transform: rotateY(180deg); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; padding: 25px; text-align: center;
         }
 
-        /* --- Activity: Love Jar --- */
-        .love-jar {
-            background: white; border-radius: 30px; padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: center; max-width: 500px; margin: 40px 0;
-            border: 3px dashed var(--primary-pink);
+        /* --- Valentine Virtual Gift Section --- */
+        .gift-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px; width: 100%; max-width: 800px; margin-top: 30px;
         }
-        .jar-btn {
-            background: var(--hot-pink); color: white; border: none;
-            padding: 10px 25px; border-radius: 20px; margin-top: 15px;
-            transition: 0.3s;
+        .gift-box {
+            background: white; border-radius: 20px; padding: 20px; text-align: center;
+            cursor: pointer; transition: 0.3s; border: 2px solid var(--soft-pink);
+            position: relative; overflow: hidden;
         }
-        .jar-btn:hover { transform: scale(1.1); box-shadow: 0 5px 15px var(--primary-pink); }
+        .gift-box:hover { transform: translateY(-10px); border-color: var(--primary-pink); }
+        .gift-box i { font-size: 2rem; display: block; margin-bottom: 10px; }
 
-        /* --- Activity: Scratch Card --- */
-        .scratch-container {
-            width: 300px; height: 150px; position: relative;
-            background: white; border-radius: 15px; overflow: hidden;
-            display: flex; align-items: center; justify-content: center;
-            border: 4px solid var(--soft-pink); margin: 20px 0;
+        /* --- Gift Modal (Pop-up) --- */
+        #gift-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 10001; display: none;
+            justify-content: center; align-items: center; padding: 20px;
         }
-        .scratch-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: #bdc3c7; color: white; display: flex;
-            align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.5s; font-weight: bold;
+        .modal-content {
+            background: white; border-radius: 30px; padding: 40px;
+            max-width: 500px; text-align: center; position: relative;
         }
-        .scratch-overlay.scratched { opacity: 0; pointer-events: none; transform: scale(1.5); }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; color: #666; }
 
-        /* --- Video --- */
-        .video-wrapper {
-            width: 100%; max-width: 700px; border-radius: 25px;
-            overflow: hidden; border: 10px solid white;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2); margin: 40px 0;
-        }
-
-        /* --- Buttons --- */
-        .btn-yes { background: var(--primary-pink); color: white; border-radius: 50px; padding: 15px 45px; border: none; font-size: 1.2rem; }
-        
+        /* --- Transitions --- */
         #transition-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--primary-pink); z-index: 9999; display: none;
@@ -116,185 +91,129 @@
 <body>
 
     <div id="heart-container"></div>
-    
+
     <div id="transition-overlay">
         <img src="img/gomu.gif" width="200" class="animate__animated animate__heartBeat animate__infinite">
-        <h1 class="text-white mt-4" style="font-family: 'Dancing Script'; font-size: 3.5rem;">Coming right up, My Love! ❤️</h1>
+        <h1 class="text-white mt-4" style="font-family: 'Dancing Script'; font-size: 3rem;">Distance is just a number... ❤️</h1>
     </div>
 
     <section id="page1" class="page justify-content-center">
-        <div class="hero-card text-center p-5 bg-white shadow-lg" style="border-radius: 40px; max-width: 500px;">
-            <img src="img/kiss.gif" class="mb-4" width="180">
+        <div class="hero-card text-center p-5 bg-white shadow-lg" style="border-radius: 40px; max-width: 500px; z-index: 20;">
+            <img src="img/kiss.gif" class="mb-4" width="150">
             <h1 id="typewriter" style="font-family: 'Dancing Script'; min-height: 100px; color: var(--hot-pink);"></h1>
             <div class="mt-4">
-                <button class="btn-yes me-2 animate__animated animate__pulse animate__infinite" onclick="startEverything()">Yes, Forever ❤️</button>
-                <button class="btn btn-outline-danger" id="noBtn" style="border-radius:50px; border: none;">No 😢</button>
+                <button class="btn btn-danger btn-lg rounded-pill px-5" onclick="startEverything()">Yes ❤️</button>
             </div>
         </div>
     </section>
 
     <section id="page2" class="page">
-        <div class="text-center mb-5 animate__animated animate__fadeInDown">
-            <img src="img/gig.gif" width="150">
+        <div class="text-center mb-5">
+            <img src="img/gig.gif" width="120">
             <h1 style="font-family: 'Dancing Script'; font-size: 4rem; color: var(--hot-pink);">You Are My Sukoon! 🥰</h1>
-            <p class="text-muted">A gallery of us, but with a twist...</p>
+            <p class="text-muted">Miles apart, but always in my heart.</p>
         </div>
 
-        <div class="gallery-container container">
-            <div class="flip-card">
+        <div class="gallery-container container mb-5">
+             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front"><img src="img/1.jpeg"></div>
                     <div class="flip-card-back">
-                        <h3 style="font-family: 'Dancing Script';">Beautiful ❤️</h3>
-                        <p>Our very first picture together! The moment it all began.</p>
+                        <h3>Beautiful ❤️</h3>
+                        <p>Our very first picture. I remember every second!</p>
                     </div>
                 </div>
             </div>
-
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front"><img src="img/2.jpeg"></div>
                     <div class="flip-card-back">
-                        <img src="img/dudububu.gif" width="80" class="mb-2">
-                        <h3 style="font-family: 'Dancing Script';">Got Your Back</h3>
-                        <p>Always right behind you, holding you through everything.</p>
+                        <img src="img/dudububu.gif" width="80">
+                        <h3>Always Got Your Back</h3>
+                        <p>No matter the distance, I am right behind you.</p>
                     </div>
                 </div>
+            </div>
             </div>
 
-            <div class="flip-card">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front"><img src="img/3.jpeg"></div>
-                    <div class="flip-card-back">
-                        <h3 style="font-family: 'Dancing Script';">My First Karwachauth 🌙</h3>
-                        <p>Waiting for the moon, but looking at my sun.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flip-card">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front"><img src="img/4.jpeg"></div>
-                    <div class="flip-card-back">
-                        <h3 style="font-family: 'Dancing Script';">First Date After Roka 💍</h3>
-                        <p>The day you officially became mine to keep.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flip-card">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front"><img src="img/5.jpeg"></div>
-                    <div class="flip-card-back">
-                        <h3 style="font-family: 'Dancing Script';">Our Day 😈🔥</h3>
-                        <p>Naughty laughs and endless chats. Best day ever!</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flip-card">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front"><img src="img/6.jpeg"></div>
-                    <div class="flip-card-back">
-                        <h3 style="font-family: 'Dancing Script';">First Movie 🍿</h3>
-                        <p>I didn't even watch the screen, I was busy watching you.</p>
-                    </div>
-                </div>
-            </div>
+        <h2 class="mt-5 text-center" style="font-family: 'Dancing Script'; color: var(--hot-pink);">Valentine Week Virtual Gifts 🎁</h2>
+        <p class="text-muted text-center">Click each day to open your surprise!</p>
+        
+        <div class="gift-grid container">
+            <div class="gift-box" onclick="openGift('rose')">🌹<br><b>Rose Day</b></div>
+            <div class="gift-box" onclick="openGift('propose')">💍<br><b>Propose Day</b></div>
+            <div class="gift-box" onclick="openGift('choco')">🍫<br><b>Chocolate Day</b></div>
+            <div class="gift-box" onclick="openGift('teddy')">🧸<br><b>Teddy Day</b></div>
+            <div class="gift-box" onclick="openGift('promise')">🤝<br><b>Promise Day</b></div>
+            <div class="gift-box" onclick="openGift('hug')">🫂<br><b>Hug Day</b></div>
+            <div class="gift-box" onclick="openGift('kiss')">💋<br><b>Kiss Day</b></div>
+            <div class="gift-box" onclick="openGift('valentine')">💝<br><b>Valentine's</b></div>
         </div>
 
-        <div class="love-jar animate__animated animate__fadeInUp">
-            <h2 style="font-family: 'Dancing Script';">The "Why I Love You" Jar 🏺</h2>
-            <p id="jar-text">Click the button to pull out a reason!</p>
-            <button class="jar-btn" onclick="revealReason()">Pull a Reason ❤️</button>
-        </div>
-
-        <h3 class="mt-5" style="font-family: 'Dancing Script';">A Surprise For You... Scratch it! 👇</h3>
-        <div class="scratch-container">
-            <div class="scratch-content text-center">
-                <h4 style="color: var(--hot-pink);">A Romantic Candle Dinner! 🕯️</h4>
-                <p>Redeemable anytime by Ladoo!</p>
-            </div>
-            <div class="scratch-overlay" onclick="this.classList.add('scratched')">
-                TAP TO SCRATCH 🖐️
-            </div>
-        </div>
-
-        <div class="video-wrapper">
-            <video width="100%" controls loop poster="img/video_thumb.jpg">
+        <div class="video-box mt-5 p-3 bg-white shadow rounded-4" style="max-width: 700px; width: 100%;">
+            <video width="100%" controls style="border-radius: 15px;">
                 <source src="img/our_video.mp4" type="video/mp4">
             </video>
         </div>
 
-        <h2 class="mt-5" style="font-family: 'Dancing Script'; font-size: 3rem;">Valentine Week Vibes 💖</h2>
-        <div class="d-flex flex-wrap justify-content-center gap-3 p-4">
-            <div class="day-card p-3 bg-white shadow-sm rounded-4 text-center" style="width: 120px;">🌹<br>Rose</div>
-            <div class="day-card p-3 bg-white shadow-sm rounded-4 text-center" style="width: 120px;">💍<br>Propose</div>
-            <div class="day-card p-3 bg-white shadow-sm rounded-4 text-center" style="width: 120px;">🍫<br>Choco</div>
-            <div class="day-card p-3 bg-white shadow-sm rounded-4 text-center" style="width: 120px;">🧸<br>Teddy</div>
-            <div class="day-card p-3 bg-white shadow-sm rounded-4 text-center" style="width: 120px;">🤝<br>Promise</div>
-            <div class="day-card p-3 bg-white shadow-sm rounded-4 text-center" style="width: 120px;">💋<br>Kiss</div>
-        </div>
-
-        <footer class="mt-5 mb-5 text-center p-5">
-            <p style="font-family: 'Dancing Script'; font-size: 2.5rem; color: var(--hot-pink);" class="animate__animated animate__pulse animate__infinite">Forever Together... ❤️</p>
-            <p class="text-muted">You are my today and all of my tomorrows.</p>
+        <footer class="mt-5 mb-5 text-center">
+            <p style="font-family: 'Dancing Script'; font-size: 2.5rem; color: var(--hot-pink);">I'm coming home soon... ❤️</p>
         </footer>
     </section>
 
+    <div id="gift-modal">
+        <div class="modal-content animate__animated animate__zoomIn">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div id="gift-display">
+                </div>
+        </div>
+    </div>
+
     <script>
-        // Floating Hearts
+        // Data for Long Distance Surprises
+        const gifts = {
+            rose: { title: "A Virtual Garden 🌹", text: "Since I can't hand you a rose, here is a digital garden that will never wither. You are the prettiest flower!", img: "img/roses.gif" },
+            propose: { title: "Re-Proposing! 💍", text: "Even across the miles, I choose you every single day. Will you be mine forever?", img: "img/ring.gif" },
+            choco: { title: "Sweet Delivery 🍫", text: "Sending you virtual calories that only make your heart grow! Check Zomato/Swiggy later! 😉", img: "img/choco.gif" },
+            teddy: { title: "Virtual Hugs 🧸", text: "This teddy represents my hugs until I can hold you for real. Squeeze your pillow for me!", img: "img/teddy.gif" },
+            promise: { title: "My Promise 🤝", text: "I promise that the distance will only make us stronger. I am yours, always.", img: "img/promise.gif" },
+            hug: { title: "Long Distance Hug 🫂", text: "Close your eyes, count to three, and feel me hugging you from here. I love you.", img: "img/hug.gif" },
+            kiss: { title: "Air Kiss 💋", text: "Catch this! Sending 1000 kisses to your forehead and cheeks.", img: "img/kiss_anim.gif" },
+            valentine: { title: "Our Future 💝", text: "Happy Valentine's Day! Next year, we won't be looking at screens, we'll be looking at each other.", img: "img/valentine_final.gif" }
+        };
+
+        function openGift(day) {
+            const gift = gifts[day];
+            const display = document.getElementById('gift-display');
+            display.innerHTML = `
+                <h2 style="color: #ff4d6d; font-family: 'Dancing Script';">${gift.title}</h2>
+                <img src="${gift.img}" style="width: 150px; margin: 20px 0;">
+                <p style="font-size: 1.1rem; line-height: 1.6;">${gift.text}</p>
+                <button class="btn btn-outline-danger mt-3" onclick="closeModal()">Close with Love ❤️</button>
+            `;
+            document.getElementById('gift-modal').style.display = 'flex';
+        }
+
+        function closeModal() { document.getElementById('gift-modal').style.display = 'none'; }
+
+        // Core Functions (Hearts, Typewriter, Transition)
         function createHeart() {
             const container = document.getElementById('heart-container');
             const heart = document.createElement('div');
             heart.classList.add('heart');
-            heart.innerHTML = ['❤️','💖','💕','💗'][Math.floor(Math.random()*4)];
+            heart.innerHTML = '❤️';
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
             heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
             container.appendChild(heart);
             setTimeout(() => heart.remove(), 5000);
         }
         setInterval(createHeart, 300);
 
-        // Love Jar Reasons
-        const reasons = [
-            "The way your eyes sparkle when you laugh.",
-            "How you make me feel safe even on my worst days.",
-            "Your 'naughty' jokes that only I understand! 😉",
-            "The way you care for me like no one else ever could.",
-            "Because you are my 'Sukoon' in this chaotic world.",
-            "The smell of your hair when we hug.",
-            "Because you are the Ladoo to my sweetness! 🍬"
-        ];
-        function revealReason() {
-            const text = document.getElementById('jar-text');
-            text.classList.remove('animate__fadeIn');
-            void text.offsetWidth; // Trigger reflow
-            text.innerHTML = reasons[Math.floor(Math.random() * reasons.length)];
-            text.classList.add('animate__animated', 'animate__fadeIn');
-        }
-
-        // Typewriter
-        const textStr = "Hi Ladoo... You make my heart skip a beat every single day. Will you be my Valentine? 💍";
-        let idx = 0;
-        function type() {
-            if (idx < textStr.length) {
-                document.getElementById("typewriter").innerHTML += textStr.charAt(idx);
-                idx++; setTimeout(type, 60);
-            }
-        }
+        const text = "Hey Ladoo... I know we are far apart right now, but distance means so little when someone means so much. Will you be my Valentine? 💍";
+        let i = 0;
+        function type() { if (i < text.length) { document.getElementById("typewriter").innerHTML += text.charAt(i); i++; setTimeout(type, 50); } }
         window.onload = type;
 
-        // No Button Logic
-        const noBtn = document.getElementById('noBtn');
-        noBtn.addEventListener('mouseover', () => {
-            noBtn.style.position = 'absolute';
-            noBtn.style.left = Math.random() * 80 + '%';
-            noBtn.style.top = Math.random() * 80 + '%';
-        });
-
-        // Transition
         function startEverything() {
             const overlay = document.getElementById('transition-overlay');
             overlay.style.display = 'flex';
