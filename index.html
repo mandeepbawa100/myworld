@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Long Distance Love ❤️</title>
+    <title>For My Forever Valentine ❤️</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -33,9 +33,9 @@
 
         /* --- Page Layouts --- */
         .page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; }
-        #page2 { display: none; background: linear-gradient(to bottom, #fff0f3, #ffccd5); }
+        #page2 { display: none; }
 
-        /* --- Flip Gallery (Memories) --- */
+        /* --- 3D Flip Gallery --- */
         .gallery-container {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 25px; width: 100%; max-width: 1000px; perspective: 1000px;
@@ -45,7 +45,7 @@
         .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
         .flip-card-front, .flip-card-back {
             position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px;
-            border: 6px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            overflow: hidden; border: 6px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
         .flip-card-front img { width: 100%; height: 100%; object-fit: cover; }
         .flip-card-back {
@@ -54,36 +54,43 @@
             justify-content: center; align-items: center; padding: 25px; text-align: center;
         }
 
-        /* --- Valentine Virtual Gift Section --- */
+        /* --- Love Activities --- */
+        .love-jar {
+            background: white; border-radius: 30px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center; max-width: 500px; margin: 40px 0; border: 3px dashed var(--primary-pink);
+        }
+        .scratch-container {
+            width: 300px; height: 150px; position: relative; background: white; border-radius: 15px;
+            overflow: hidden; display: flex; align-items: center; justify-content: center; border: 4px solid var(--soft-pink);
+        }
+        .scratch-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #bdc3c7;
+            color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.5s;
+        }
+        .scratch-overlay.scratched { opacity: 0; pointer-events: none; transform: scale(1.5); }
+
+        /* --- Valentine Week Gifts --- */
         .gift-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px; width: 100%; max-width: 800px; margin-top: 30px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 15px; width: 100%; max-width: 800px; margin-top: 20px;
         }
         .gift-box {
-            background: white; border-radius: 20px; padding: 20px; text-align: center;
-            cursor: pointer; transition: 0.3s; border: 2px solid var(--soft-pink);
-            position: relative; overflow: hidden;
+            background: white; border-radius: 15px; padding: 15px; text-align: center;
+            cursor: pointer; transition: 0.3s; border: 2px solid var(--soft-pink); font-size: 0.9rem;
         }
-        .gift-box:hover { transform: translateY(-10px); border-color: var(--primary-pink); }
-        .gift-box i { font-size: 2rem; display: block; margin-bottom: 10px; }
+        .gift-box:hover { transform: translateY(-5px); border-color: var(--primary-pink); background: #fff5f7; }
 
-        /* --- Gift Modal (Pop-up) --- */
+        /* --- Modal --- */
         #gift-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); z-index: 10001; display: none;
-            justify-content: center; align-items: center; padding: 20px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85);
+            z-index: 10001; display: none; justify-content: center; align-items: center; padding: 20px;
         }
-        .modal-content {
-            background: white; border-radius: 30px; padding: 40px;
-            max-width: 500px; text-align: center; position: relative;
-        }
-        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; color: #666; }
+        .modal-inner { background: white; border-radius: 30px; padding: 30px; max-width: 450px; text-align: center; position: relative; }
 
-        /* --- Transitions --- */
+        /* --- Overlay --- */
         #transition-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--primary-pink); z-index: 9999; display: none;
-            flex-direction: column; align-items: center; justify-content: center;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--primary-pink);
+            z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center;
             clip-path: circle(0% at 50% 50%); transition: clip-path 1.2s ease-in-out;
         }
     </style>
@@ -91,18 +98,19 @@
 <body>
 
     <div id="heart-container"></div>
-
+    
     <div id="transition-overlay">
         <img src="img/gomu.gif" width="200" class="animate__animated animate__heartBeat animate__infinite">
-        <h1 class="text-white mt-4" style="font-family: 'Dancing Script'; font-size: 3rem;">Distance is just a number... ❤️</h1>
+        <h1 class="text-white mt-4" style="font-family: 'Dancing Script'; font-size: 3rem;">I Love You So Much! ❤️</h1>
     </div>
 
     <section id="page1" class="page justify-content-center">
-        <div class="hero-card text-center p-5 bg-white shadow-lg" style="border-radius: 40px; max-width: 500px; z-index: 20;">
+        <div class="hero-card text-center p-5 bg-white shadow-lg" style="border-radius: 40px; max-width: 500px;">
             <img src="img/kiss.gif" class="mb-4" width="150">
-            <h1 id="typewriter" style="font-family: 'Dancing Script'; min-height: 100px; color: var(--hot-pink);"></h1>
+            <h1 id="typewriter" style="font-family: 'Dancing Script'; min-height: 80px; color: var(--hot-pink);"></h1>
             <div class="mt-4">
-                <button class="btn btn-danger btn-lg rounded-pill px-5" onclick="startEverything()">Yes ❤️</button>
+                <button class="btn btn-danger rounded-pill px-5 py-2" onclick="startEverything()">Yes ❤️</button>
+                <button class="btn btn-light" id="noBtn" style="border-radius:50px;">No 😢</button>
             </div>
         </div>
     </section>
@@ -110,93 +118,89 @@
     <section id="page2" class="page">
         <div class="text-center mb-5">
             <img src="img/gig.gif" width="120">
-            <h1 style="font-family: 'Dancing Script'; font-size: 4rem; color: var(--hot-pink);">You Are My Sukoon! 🥰</h1>
-            <p class="text-muted">Miles apart, but always in my heart.</p>
+            <h1 style="font-family: 'Dancing Script'; font-size: 3.5rem; color: var(--hot-pink);">You Are My Sukoon! 🥰</h1>
+            <p class="text-muted">Throwing it back to the good times ✨</p>
         </div>
 
-        <div class="gallery-container container mb-5">
-             <div class="flip-card">
+        <div class="gallery-container container">
+            <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front"><img src="img/1.jpeg"></div>
-                    <div class="flip-card-back">
-                        <h3>Beautiful ❤️</h3>
-                        <p>Our very first picture. I remember every second!</p>
-                    </div>
+                    <div class="flip-card-back"><h3>Beautiful ❤️</h3><p>Our first picture together!</p></div>
                 </div>
             </div>
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front"><img src="img/2.jpeg"></div>
-                    <div class="flip-card-back">
-                        <img src="img/dudububu.gif" width="80">
-                        <h3>Always Got Your Back</h3>
-                        <p>No matter the distance, I am right behind you.</p>
-                    </div>
+                    <div class="flip-card-back"><img src="img/dudububu.gif" width="70"><h3>Always to your back</h3><p>With a beautiful frame setup.</p></div>
                 </div>
             </div>
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><img src="img/3.jpeg"></div>
+                    <div class="flip-card-back"><h3>My First Karwachouth 🌙</h3><p>Waiting for my moon.</p></div>
+                </div>
             </div>
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><img src="img/4.jpeg"></div>
+                    <div class="flip-card-back"><h3>My First Date 💍</h3><p>Special moments after our Roka.</p></div>
+                </div>
+            </div>
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><img src="img/5.jpeg"></div>
+                    <div class="flip-card-back"><h3>Our Day 😈</h3><p>Naughty emoji vibes!</p></div>
+                </div>
+            </div>
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><img src="img/6.jpeg"></div>
+                    <div class="flip-card-back"><h3>First Movie 🍿</h3><p>Our first cinema date together.</p></div>
+                </div>
+            </div>
+        </div>
 
-        <h2 class="mt-5 text-center" style="font-family: 'Dancing Script'; color: var(--hot-pink);">Valentine Week Virtual Gifts 🎁</h2>
-        <p class="text-muted text-center">Click each day to open your surprise!</p>
-        
+        <div class="love-jar">
+            <h2 style="font-family: 'Dancing Script';">The "Why I Love You" Jar 🏺</h2>
+            <p id="jar-text">Click to pull a reason!</p>
+            <button class="btn btn-danger btn-sm rounded-pill" onclick="revealReason()">Pull a Reason ❤️</button>
+        </div>
+
+        <h3 class="mt-4" style="font-family: 'Dancing Script';">A Surprise For You... Scratch it! 👇</h3>
+        <div class="scratch-container mb-5">
+            <div class="scratch-content"><h4>A Romantic Dinner! 🕯️</h4><p>Redeemable by Ladoo!</p></div>
+            <div class="scratch-overlay" onclick="this.classList.add('scratched')">TAP TO SCRATCH 🖐️</div>
+        </div>
+
+        <h2 style="font-family: 'Dancing Script'; color: var(--hot-pink);">Valentine's Week Surprises 💝</h2>
         <div class="gift-grid container">
-            <div class="gift-box" onclick="openGift('rose')">🌹<br><b>Rose Day</b></div>
-            <div class="gift-box" onclick="openGift('propose')">💍<br><b>Propose Day</b></div>
-            <div class="gift-box" onclick="openGift('choco')">🍫<br><b>Chocolate Day</b></div>
-            <div class="gift-box" onclick="openGift('teddy')">🧸<br><b>Teddy Day</b></div>
-            <div class="gift-box" onclick="openGift('promise')">🤝<br><b>Promise Day</b></div>
-            <div class="gift-box" onclick="openGift('hug')">🫂<br><b>Hug Day</b></div>
-            <div class="gift-box" onclick="openGift('kiss')">💋<br><b>Kiss Day</b></div>
-            <div class="gift-box" onclick="openGift('valentine')">💝<br><b>Valentine's</b></div>
+            <div class="gift-box" onclick="openGift('rose')">🌹<br>Rose Day</div>
+            <div class="gift-box" onclick="openGift('propose')">💍<br>Propose Day</div>
+            <div class="gift-box" onclick="openGift('choco')">🍫<br>Choco Day</div>
+            <div class="gift-box" onclick="openGift('teddy')">🧸<br>Teddy Day</div>
+            <div class="gift-box" onclick="openGift('promise')">🤝<br>Promise Day</div>
+            <div class="gift-box" onclick="openGift('hug')">🫂<br>Hug Day</div>
+            <div class="gift-box" onclick="openGift('kiss')">💋<br>Kiss Day</div>
+            <div class="gift-box" onclick="openGift('valentine')">💖<br>Valentine's</div>
         </div>
 
-        <div class="video-box mt-5 p-3 bg-white shadow rounded-4" style="max-width: 700px; width: 100%;">
-            <video width="100%" controls style="border-radius: 15px;">
-                <source src="img/our_video.mp4" type="video/mp4">
-            </video>
+        <div class="mt-5 p-3 bg-white shadow rounded-4" style="max-width: 600px; width: 100%;">
+            <video width="100%" controls style="border-radius: 15px;"><source src="img/our_video.mp4" type="video/mp4"></video>
         </div>
 
-        <footer class="mt-5 mb-5 text-center">
-            <p style="font-family: 'Dancing Script'; font-size: 2.5rem; color: var(--hot-pink);">I'm coming home soon... ❤️</p>
-        </footer>
+        <footer class="mt-5 mb-5 text-center"><p style="font-family: 'Dancing Script'; font-size: 2rem; color: var(--hot-pink);">Together Forever... ❤️</p></footer>
     </section>
 
-    <div id="gift-modal">
-        <div class="modal-content animate__animated animate__zoomIn">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-            <div id="gift-display">
-                </div>
+    <div id="gift-modal" onclick="closeModal()">
+        <div class="modal-inner animate__animated animate__zoomIn" onclick="event.stopPropagation()">
+            <div id="gift-display"></div>
+            <button class="btn btn-sm btn-danger mt-3 rounded-pill" onclick="closeModal()">Close</button>
         </div>
     </div>
 
     <script>
-        // Data for Long Distance Surprises
-        const gifts = {
-            rose: { title: "A Virtual Garden 🌹", text: "Since I can't hand you a rose, here is a digital garden that will never wither. You are the prettiest flower!", img: "img/roses.gif" },
-            propose: { title: "Re-Proposing! 💍", text: "Even across the miles, I choose you every single day. Will you be mine forever?", img: "img/ring.gif" },
-            choco: { title: "Sweet Delivery 🍫", text: "Sending you virtual calories that only make your heart grow! Check Zomato/Swiggy later! 😉", img: "img/choco.gif" },
-            teddy: { title: "Virtual Hugs 🧸", text: "This teddy represents my hugs until I can hold you for real. Squeeze your pillow for me!", img: "img/teddy.gif" },
-            promise: { title: "My Promise 🤝", text: "I promise that the distance will only make us stronger. I am yours, always.", img: "img/promise.gif" },
-            hug: { title: "Long Distance Hug 🫂", text: "Close your eyes, count to three, and feel me hugging you from here. I love you.", img: "img/hug.gif" },
-            kiss: { title: "Air Kiss 💋", text: "Catch this! Sending 1000 kisses to your forehead and cheeks.", img: "img/kiss_anim.gif" },
-            valentine: { title: "Our Future 💝", text: "Happy Valentine's Day! Next year, we won't be looking at screens, we'll be looking at each other.", img: "img/valentine_final.gif" }
-        };
-
-        function openGift(day) {
-            const gift = gifts[day];
-            const display = document.getElementById('gift-display');
-            display.innerHTML = `
-                <h2 style="color: #ff4d6d; font-family: 'Dancing Script';">${gift.title}</h2>
-                <img src="${gift.img}" style="width: 150px; margin: 20px 0;">
-                <p style="font-size: 1.1rem; line-height: 1.6;">${gift.text}</p>
-                <button class="btn btn-outline-danger mt-3" onclick="closeModal()">Close with Love ❤️</button>
-            `;
-            document.getElementById('gift-modal').style.display = 'flex';
-        }
-
-        function closeModal() { document.getElementById('gift-modal').style.display = 'none'; }
-
-        // Core Functions (Hearts, Typewriter, Transition)
+        // Hearts
         function createHeart() {
             const container = document.getElementById('heart-container');
             const heart = document.createElement('div');
@@ -209,11 +213,34 @@
         }
         setInterval(createHeart, 300);
 
-        const text = "Hey Ladoo... I know we are far apart right now, but distance means so little when someone means so much. Will you be my Valentine? 💍";
+        // Typewriter
+        const text = "Hi Ladoo... You make my heart skip a beat every single day. Will you be my Valentine? 💍";
         let i = 0;
         function type() { if (i < text.length) { document.getElementById("typewriter").innerHTML += text.charAt(i); i++; setTimeout(type, 50); } }
         window.onload = type;
 
+        // Love Jar
+        const reasons = ["Your beautiful laugh.", "How you care for me.", "Your 'Sukoon' vibes.", "How special you make me feel."];
+        function revealReason() { document.getElementById('jar-text').innerHTML = reasons[Math.floor(Math.random()*reasons.length)]; }
+
+        // Gift Modal
+        const giftData = {
+            rose: "🌹 A virtual bouquet for the most beautiful flower!",
+            propose: "💍 I promise to choose you every single day.",
+            choco: "🍫 Sending you all the sweetness in the world!",
+            teddy: "🧸 A virtual hug until I can hold you for real.",
+            promise: "🤝 I promise to never let go of your hand.",
+            hug: "🫂 Closing the distance with a big warm hug!",
+            kiss: "💋 1000 kisses sent your way!",
+            valentine: "💖 Happy Valentine's Day! You are my forever."
+        };
+        function openGift(day) {
+            document.getElementById('gift-display').innerHTML = `<h3>${day.toUpperCase()}</h3><p>${giftData[day]}</p>`;
+            document.getElementById('gift-modal').style.display = 'flex';
+        }
+        function closeModal() { document.getElementById('gift-modal').style.display = 'none'; }
+
+        // Transition
         function startEverything() {
             const overlay = document.getElementById('transition-overlay');
             overlay.style.display = 'flex';
@@ -221,10 +248,16 @@
             setTimeout(() => {
                 document.getElementById('page1').style.display = 'none';
                 document.getElementById('page2').style.display = 'flex';
-                window.scrollTo(0,0);
                 overlay.style.clipPath = 'circle(0% at 50% 50%)';
             }, 3000);
         }
+
+        const noBtn = document.getElementById('noBtn');
+        noBtn.addEventListener('mouseover', () => {
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = Math.random() * 80 + '%';
+            noBtn.style.top = Math.random() * 80 + '%';
+        });
     </script>
 </body>
 </html>
