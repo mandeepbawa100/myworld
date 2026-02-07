@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Forever Valentine ❤️</title>
+    <title>For My Forever Valentine ❤️</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -12,181 +12,119 @@
         :root {
             --primary-pink: #ff4d6d;
             --hot-pink: #c9184a;
-            --soft-pink: #ffccd5;
             --glass: rgba(255, 255, 255, 0.85);
         }
 
-        body {
-            background: #fff0f3;
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            overflow-x: hidden;
-        }
+        body { background: #fff0f3; font-family: 'Poppins', sans-serif; margin: 0; overflow-x: hidden; }
 
-        /* Floating Hearts Background (Global) */
-        #heart-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 10;
-        }
-
-        .heart {
-            position: absolute;
-            color: var(--primary-pink);
-            font-size: 20px;
-            animation: float Up 5s linear infinite;
-            opacity: 0;
-        }
-
+        /* Floating Hearts Animation */
+        #heart-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
+        .heart { position: absolute; color: var(--primary-pink); font-size: 20px; animation: floatUp 5s linear infinite; opacity: 0; }
         @keyframes floatUp {
             0% { transform: translateY(110vh) scale(0.5); opacity: 1; }
             100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
         }
 
-        /* Transitions */
+        /* Transition Screen */
         #transition-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--primary-pink);
-            z-index: 9999;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            clip-path: circle(0% at 50% 50%);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--primary-pink); z-index: 9999; display: none;
+            align-items: center; justify-content: center; clip-path: circle(0% at 50% 50%);
             transition: clip-path 1.2s ease-in-out;
         }
 
-        /* Page Layouts */
         .page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; }
         #page2 { display: none; }
 
         .hero-card {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            padding: 2.5rem;
-            border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
-            text-align: center;
-            max-width: 450px;
-            border: 2px solid white;
-            z-index: 20;
+            background: var(--glass); backdrop-filter: blur(10px); padding: 2.5rem;
+            border-radius: 30px; box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
+            text-align: center; max-width: 450px; border: 2px solid white; z-index: 20;
         }
 
-        /* Gallery */
-        .gallery-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .img-wrapper {
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: 0.4s;
-            border: 3px solid white;
-        }
-
+        /* Gallery Grid */
+        .gallery-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 30px; width: 100%; max-width: 600px; }
+        .img-wrapper { border-radius: 15px; overflow: hidden; box-shadow: 0 8px 15px rgba(0,0,0,0.1); cursor: pointer; transition: 0.4s; border: 3px solid white; background: #eee; }
         .img-wrapper:hover { transform: scale(1.05) rotate(2deg); }
-        .img-wrapper img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
+        .img-wrapper img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
 
-        /* Fullscreen Image Overlay */
-        #lightbox {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 10000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            cursor: zoom-out;
-        }
+        /* Lightbox */
+        #lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; display: none; justify-content: center; align-items: center; cursor: zoom-out; }
+        #lightbox img { max-width: 90%; max-height: 80%; border: 5px solid white; border-radius: 10px; animation: zoomIn 0.3s; }
 
-        #lightbox img { max-width: 90%; max-height: 80%; border: 5px solid white; border-radius: 10px; }
-
-        /* Promises Section */
-        .promise-column {
-            background: white;
-            padding: 20px;
-            border-radius: 20px;
-            margin-top: 20px;
-            border-left: 8px solid var(--primary-pink);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            width: 100%;
-            max-width: 600px;
-        }
-
-        h2 { font-family: 'Dancing Script', cursive; color: var(--hot-pink); }
-        .btn-yes { background: var(--primary-pink); color: white; border-radius: 50px; padding: 10px 30px; }
+        .promise-column { background: white; padding: 20px; border-radius: 20px; margin-top: 20px; border-left: 8px solid var(--primary-pink); box-shadow: 0 5px 15px rgba(0,0,0,0.05); width: 100%; max-width: 600px; }
+        h1, h2 { font-family: 'Dancing Script', cursive; color: var(--hot-pink); }
+        .btn-yes { background: var(--primary-pink); color: white; border-radius: 50px; padding: 12px 40px; font-weight: 600; border: none; transition: 0.3s; }
+        .btn-yes:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--primary-pink); }
     </style>
 </head>
 <body>
 
-    <audio id="mySong" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    </audio>
+    <div style="display:none">
+        <iframe id="youtube-player" width="0" height="0" src="https://www.youtube.com/embed/awU9FZWzY2Y?enablejsapi=1" frameborder="0"></iframe>
+    </div>
 
     <div id="heart-container"></div>
     
     <div id="transition-overlay">
-        <h1 class="text-white animate__animated animate__heartBeat animate__infinite" style="font-family:'Dancing Script'; font-size: 4rem;">I Love You! ❤️</h1>
+        <h1 class="text-white animate__animated animate__pulse animate__infinite" style="font-size: 3rem;">I Love You! ❤️</h1>
     </div>
 
     <section id="page1" class="page justify-content-center">
         <div class="hero-card">
-            <img src="https://media.tenor.com/9nO9Gk_uGkAAAAAi/tkthao219-bubududu.gif" class="mb-4" width="150">
-            <h1 id="typewriter" style="font-size: 1.8rem;"></h1>
-            <div class="mt-4">
-                <button class="btn btn-yes me-2" onclick="startEverything()">Yes ❤️</button>
-                <button class="btn btn-light" id="noBtn" style="border-radius:50px;">No 😢</button>
+            <img src="img/Kiss.gif" class="mb-4" width="150">
+            <h1 id="typewriter"></h1>
+            <div class="mt-4" style="min-height: 80px;">
+                <button class="btn-yes me-2" onclick="startEverything()">Yes ❤️</button>
+                <button class="btn btn-light" id="noBtn" style="border-radius:50px; padding: 12px 30px;">No 😢</button>
             </div>
         </div>
     </section>
 
     <section id="page2" class="page">
         <div class="text-center mb-4">
-            <img src="https://media.tenor.com/Gf_i30Y3v0AAAAAi/peach-goma.gif" width="120">
-            <h1 class="display-5">You're My Valentine!</h1>
+            <img src="img/gig.gif" width="120">
+            <h1>You Are My Sukoon! 🥰</h1>
             <p class="text-muted">Click on our memories to see them full size ✨</p>
         </div>
 
         <div class="gallery-container container">
-            <div class="img-wrapper" onclick="openMe(this)"><img src="img/photo1.jpg" alt="Memory 1"></div>
-            <div class="img-wrapper" onclick="openMe(this)"><img src="img/photo2.jpg" alt="Memory 2"></div>
-            <div class="img-wrapper" onclick="openMe(this)"><img src="img/photo3.jpg" alt="Memory 3"></div>
-            <div class="img-wrapper" onclick="openMe(this)"><img src="img/photo4.jpg" alt="Memory 4"></div>
-            <div class="img-wrapper" onclick="openMe(this)"><img src="img/photo5.jpg" alt="Memory 5"></div>
-            <div class="img-wrapper" onclick="openMe(this)"><img src="img/photo6.jpg" alt="Memory 6"></div>
+            <div class="img-wrapper" onclick="openMe(this)"><img src="img/1.jpeg" onerror="this.src='https://via.placeholder.com/300?text=Memory+1'"></div>
+            <div class="img-wrapper" onclick="openMe(this)"><img src="img/2.jpeg" onerror="this.src='https://via.placeholder.com/300?text=Memory+2'"></div>
+            <div class="img-wrapper" onclick="openMe(this)"><img src="img/3.jpeg" onerror="this.src='https://via.placeholder.com/300?text=Memory+3'"></div>
+            <div class="img-wrapper" onclick="openMe(this)"><img src="img/4.jpeg" onerror="this.src='https://via.placeholder.com/300?text=Memory+4'"></div>
+            <div class="img-wrapper" onclick="openMe(this)"><img src="img/5.jpeg" onerror="this.src='https://via.placeholder.com/300?text=Memory+5'"></div>
+            <div class="img-wrapper" onclick="openMe(this)"><img src="img/6.jpeg" onerror="this.src='https://via.placeholder.com/300?text=Memory+6'"></div>
         </div>
 
-        <h2 class="mt-5 text-center">My Promises to You 💍</h2>
+        <h2 class="mt-5 text-center">Promises For You 💍</h2>
         <div class="promise-column animate__animated animate__fadeInUp">
-            <h5>🤝 Always by your side</h5>
-            <p class="small text-muted">No matter how hard things get, I will be the one holding your hand through it all.</p>
+            <h5>💖 Promise #1</h5>
+            <p>Main hamesha tere naal khadi rahungi, har situation mein. Tu meri strength hai.</p>
         </div>
         <div class="promise-column animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
-            <h5>😋 Endless Snacks & Smiles</h5>
-            <p class="small text-muted">I promise to always keep your stomach full and your heart happy with my bad jokes.</p>
+            <h5>🌙 Promise #2</h5>
+            <p>Teri har choti vaddi khushi meri priority hogi. I promise to keep you smiling.</p>
         </div>
         <div class="promise-column animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
-            <h5>🌎 Our Little World</h5>
-            <p class="small text-muted">I promise to build a future where you are the queen of my heart, forever.</p>
+            <h5>🔥 Promise #3</h5>
+            <p>You + Me = Forever. Is equation mein koi third person kabhi nahi aayega.</p>
         </div>
 
         <footer class="mt-5 mb-5 text-center">
-            <p style="font-family: 'Dancing Script'; font-size: 1.5rem; color: var(--hot-pink);">Together Forever & Always... ❤️</p>
+            <p style="font-family: 'Dancing Script'; font-size: 1.5rem; color: var(--hot-pink);">Ab tu phas gayi hai... Forever stuck with me! ♾️❤️</p>
         </footer>
     </section>
 
-    <div id="lightbox" onclick="this.style.display='none'">
-        <img id="lightbox-img" src="">
-    </div>
+    <div id="lightbox" onclick="this.style.display='none'"><img id="lightbox-img" src=""></div>
 
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // Floating Hearts Logic
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player');
+        }
+
         function createHeart() {
             const container = document.getElementById('heart-container');
             const heart = document.createElement('div');
@@ -199,19 +137,16 @@
         }
         setInterval(createHeart, 300);
 
-        // Typewriter
         const text = "Hi Ladoo... You make my heart skip a beat every single day. Will you be my Valentine? 💍";
         let i = 0;
         function type() {
             if (i < text.length) {
                 document.getElementById("typewriter").innerHTML += text.charAt(i);
-                i++;
-                setTimeout(type, 50);
+                i++; setTimeout(type, 50);
             }
         }
         type();
 
-        // Runaway Button
         const noBtn = document.getElementById('noBtn');
         noBtn.addEventListener('mouseover', () => {
             noBtn.style.position = 'fixed';
@@ -219,12 +154,8 @@
             noBtn.style.top = Math.random() * (window.innerHeight - 50) + 'px';
         });
 
-        // Start Transition, Music & Page 2
         function startEverything() {
-            // Play Music
-            document.getElementById('mySong').play();
-
-            // Transition
+            if (player) { player.playVideo(); }
             const overlay = document.getElementById('transition-overlay');
             overlay.style.display = 'flex';
             overlay.style.clipPath = 'circle(150% at 50% 50%)';
@@ -237,10 +168,8 @@
             }, 1500);
         }
 
-        // Lightbox Logic
         function openMe(el) {
-            const imgSrc = el.querySelector('img').src;
-            document.getElementById('lightbox-img').src = imgSrc;
+            document.getElementById('lightbox-img').src = el.querySelector('img').src;
             document.getElementById('lightbox').style.display = 'flex';
         }
     </script>
