@@ -35,39 +35,36 @@
         .page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; }
         #page2 { display: none; }
 
-        /* --- 3D Flip Gallery --- */
+        /* --- Photo Frames (Flip & Zoom) --- */
         .gallery-container {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 25px; width: 100%; max-width: 1000px; perspective: 1000px;
         }
-        .flip-card { width: 100%; height: 350px; cursor: pointer; }
-        .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s; transform-style: preserve-3d; }
-        .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card { width: 100%; height: 300px; cursor: pointer; position: relative; }
+        .flip-card-inner { 
+            position: relative; width: 100%; height: 100%; 
+            transition: transform 0.6s; transform-style: preserve-3d; 
+        }
+        .flip-card:active .flip-card-inner { transform: rotateY(180deg); }
+        
         .flip-card-front, .flip-card-back {
-            position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px;
-            overflow: hidden; border: 6px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden; 
+            border-radius: 20px; border: 8px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        .flip-card-front img { width: 100%; height: 100%; object-fit: cover; }
-        .flip-card-back {
-            background: linear-gradient(135deg, var(--primary-pink), var(--hot-pink));
-            color: white; transform: rotateY(180deg); display: flex; flex-direction: column;
-            justify-content: center; align-items: center; padding: 25px; text-align: center;
+        .flip-card-front { 
+            background: var(--soft-pink); display: flex; align-items: center; 
+            justify-content: center; font-family: 'Dancing Script'; font-size: 1.5rem; color: var(--hot-pink);
         }
+        .flip-card-back img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
 
-        /* --- Love Activities --- */
-        .love-jar {
-            background: white; border-radius: 30px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: center; max-width: 500px; margin: 40px 0; border: 3px dashed var(--primary-pink);
+        /* --- Full Screen Dialog (Zoom) --- */
+        #zoom-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.9); z-index: 20000; display: none;
+            justify-content: center; align-items: center; flex-direction: column;
         }
-        .scratch-container {
-            width: 300px; height: 150px; position: relative; background: white; border-radius: 15px;
-            overflow: hidden; display: flex; align-items: center; justify-content: center; border: 4px solid var(--soft-pink);
-        }
-        .scratch-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #bdc3c7;
-            color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.5s;
-        }
-        .scratch-overlay.scratched { opacity: 0; pointer-events: none; transform: scale(1.5); }
+        .zoom-img { max-width: 90%; max-height: 80vh; border: 10px solid white; border-radius: 15px; }
+        .close-zoom { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; }
 
         /* --- Valentine Week Gifts --- */
         .gift-grid {
@@ -76,16 +73,21 @@
         }
         .gift-box {
             background: white; border-radius: 15px; padding: 15px; text-align: center;
-            cursor: pointer; transition: 0.3s; border: 2px solid var(--soft-pink); font-size: 0.9rem;
+            cursor: pointer; transition: 0.3s; border: 2px solid var(--soft-pink);
         }
-        .gift-box:hover { transform: translateY(-5px); border-color: var(--primary-pink); background: #fff5f7; }
+        .gift-box:hover { transform: scale(1.05); background: #fff5f7; }
 
-        /* --- Modal --- */
+        /* --- Modal Designs --- */
         #gift-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7);
             z-index: 10001; display: none; justify-content: center; align-items: center; padding: 20px;
         }
-        .modal-inner { background: white; border-radius: 30px; padding: 30px; max-width: 450px; text-align: center; position: relative; }
+        .modal-inner { 
+            background: white; border-radius: 30px; padding: 30px; max-width: 450px; 
+            text-align: center; position: relative; border: 5px solid var(--primary-pink);
+        }
+        .day-animation { width: 120px; margin-bottom: 15px; }
+        .shayari { font-style: italic; color: #555; margin-top: 15px; font-weight: 500; }
 
         /* --- Overlay --- */
         #transition-overlay {
@@ -100,13 +102,13 @@
     <div id="heart-container"></div>
     
     <div id="transition-overlay">
-        <img src="img/gomu.gif" width="200" class="animate__animated animate__heartBeat animate__infinite">
-        <h1 class="text-white mt-4" style="font-family: 'Dancing Script'; font-size: 3rem;">I Love You So Much! ❤️</h1>
+        <img src="https://media.tenor.com/7Yf_p2_Wv7MAAAAj/mochi-peach-cat-cat.gif" width="200">
+        <h1 class="text-white mt-4" style="font-family: 'Dancing Script'; font-size: 3rem;">I Love You! ❤️</h1>
     </div>
 
     <section id="page1" class="page justify-content-center">
         <div class="hero-card text-center p-5 bg-white shadow-lg" style="border-radius: 40px; max-width: 500px;">
-            <img src="img/kiss.gif" class="mb-4" width="150">
+            <img src="https://media.tenor.com/T0_S-0m-95MAAAAj/mochi-peach.gif" class="mb-4" width="150">
             <h1 id="typewriter" style="font-family: 'Dancing Script'; min-height: 80px; color: var(--hot-pink);"></h1>
             <div class="mt-4">
                 <button class="btn btn-danger rounded-pill px-5 py-2" onclick="startEverything()">Yes ❤️</button>
@@ -117,63 +119,32 @@
 
     <section id="page2" class="page">
         <div class="text-center mb-5">
-            <img src="img/gig.gif" width="120">
             <h1 style="font-family: 'Dancing Script'; font-size: 3.5rem; color: var(--hot-pink);">You Are My Sukoon! 🥰</h1>
-            <p class="text-muted">Throwing it back to the good times ✨</p>
+            <p class="text-muted">Click the frames to see our memories ✨</p>
         </div>
 
         <div class="gallery-container container">
-            <div class="flip-card">
+            <div class="flip-card" onclick="zoomImage('img/1.jpeg')">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front"><img src="img/1.jpeg"></div>
-                    <div class="flip-card-back"><h3>Beautiful ❤️</h3><p>Our first picture together!</p></div>
+                    <div class="flip-card-front">Our First Picture Together ❤️</div>
+                    <div class="flip-card-back"><img src="img/1.jpeg"></div>
                 </div>
             </div>
-            <div class="flip-card">
+            <div class="flip-card" onclick="zoomImage('img/2.jpeg')">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front"><img src="img/2.jpeg"></div>
-                    <div class="flip-card-back"><img src="img/dudububu.gif" width="70"><h3>Always to your back</h3><p>With a beautiful frame setup.</p></div>
+                    <div class="flip-card-front">Our Moments ✨</div>
+                    <div class="flip-card-back"><img src="img/2.jpeg"></div>
                 </div>
             </div>
-            <div class="flip-card">
+            <div class="flip-card" onclick="zoomImage('img/3.jpeg')">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front"><img src="img/3.jpeg"></div>
-                    <div class="flip-card-back"><h3>My First Karwachouth 🌙</h3><p>Waiting for my moon.</p></div>
-                </div>
-            </div>
-            <div class="flip-card">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front"><img src="img/4.jpeg"></div>
-                    <div class="flip-card-back"><h3>My First Date 💍</h3><p>Special moments after our Roka.</p></div>
-                </div>
-            </div>
-            <div class="flip-card">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front"><img src="img/5.jpeg"></div>
-                    <div class="flip-card-back"><h3>Our Day 😈</h3><p>Naughty emoji vibes!</p></div>
-                </div>
-            </div>
-            <div class="flip-card">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front"><img src="img/6.jpeg"></div>
-                    <div class="flip-card-back"><h3>First Movie 🍿</h3><p>Our first cinema date together.</p></div>
+                    <div class="flip-card-front">My Love 💍</div>
+                    <div class="flip-card-back"><img src="img/3.jpeg"></div>
                 </div>
             </div>
         </div>
 
-        <div class="love-jar">
-            <h2 style="font-family: 'Dancing Script';">The "Why I Love You" Jar 🏺</h2>
-            <p id="jar-text">Click to pull a reason!</p>
-            <button class="btn btn-danger btn-sm rounded-pill" onclick="revealReason()">Pull a Reason ❤️</button>
-        </div>
-
-        <h3 class="mt-4" style="font-family: 'Dancing Script';">A Surprise For You... Scratch it! 👇</h3>
-        <div class="scratch-container mb-5">
-            <div class="scratch-content"><h4>A Romantic Dinner! 🕯️</h4><p>Redeemable by Ladoo!</p></div>
-            <div class="scratch-overlay" onclick="this.classList.add('scratched')">TAP TO SCRATCH 🖐️</div>
-        </div>
-
-        <h2 style="font-family: 'Dancing Script'; color: var(--hot-pink);">Valentine's Week Surprises 💝</h2>
+        <h2 class="mt-5" style="font-family: 'Dancing Script'; color: var(--hot-pink);">Valentine's Week Surprises 💝</h2>
         <div class="gift-grid container">
             <div class="gift-box" onclick="openGift('rose')">🌹<br>Rose Day</div>
             <div class="gift-box" onclick="openGift('propose')">💍<br>Propose Day</div>
@@ -185,17 +156,19 @@
             <div class="gift-box" onclick="openGift('valentine')">💖<br>Valentine's</div>
         </div>
 
-        <div class="mt-5 p-3 bg-white shadow rounded-4" style="max-width: 600px; width: 100%;">
-            <video width="100%" controls style="border-radius: 15px;"><source src="img/our_video.mp4" type="video/mp4"></video>
-        </div>
-
         <footer class="mt-5 mb-5 text-center"><p style="font-family: 'Dancing Script'; font-size: 2rem; color: var(--hot-pink);">Together Forever... ❤️</p></footer>
     </section>
 
+    <div id="zoom-modal">
+        <span class="close-zoom" onclick="closeZoom()">&times;</span>
+        <img class="zoom-img animate__animated animate__zoomIn" id="zoomed-img">
+        <h3 class="text-white mt-3" style="font-family: 'Dancing Script';">Beautiful Memories...</h3>
+    </div>
+
     <div id="gift-modal" onclick="closeModal()">
-        <div class="modal-inner animate__animated animate__zoomIn" onclick="event.stopPropagation()">
+        <div class="modal-inner animate__animated animate__bounceIn" onclick="event.stopPropagation()">
             <div id="gift-display"></div>
-            <button class="btn btn-sm btn-danger mt-3 rounded-pill" onclick="closeModal()">Close</button>
+            <button class="btn btn-danger mt-3 rounded-pill" onclick="closeModal()">Close</button>
         </div>
     </div>
 
@@ -214,28 +187,69 @@
         setInterval(createHeart, 300);
 
         // Typewriter
-        const text = "Hi Ladoo... You make my heart skip a beat every single day. Will you be my Valentine? 💍";
+        const text = "Hi Ladoo... Will you be my Valentine? 💍";
         let i = 0;
         function type() { if (i < text.length) { document.getElementById("typewriter").innerHTML += text.charAt(i); i++; setTimeout(type, 50); } }
         window.onload = type;
 
-        // Love Jar
-        const reasons = ["Your beautiful laugh.", "How you care for me.", "Your 'Sukoon' vibes.", "How special you make me feel."];
-        function revealReason() { document.getElementById('jar-text').innerHTML = reasons[Math.floor(Math.random()*reasons.length)]; }
+        // Zoom Logic
+        function zoomImage(src) {
+            document.getElementById('zoomed-img').src = src;
+            document.getElementById('zoom-modal').style.display = 'flex';
+        }
+        function closeZoom() { document.getElementById('zoom-modal').style.display = 'none'; }
 
-        // Gift Modal
+        // Gift Modal with Animations and Punjabi-Hinglish Shayari
         const giftData = {
-            rose: "🌹 A virtual bouquet for the most beautiful flower!",
-            propose: "💍 I promise to choose you every single day.",
-            choco: "🍫 Sending you all the sweetness in the world!",
-            teddy: "🧸 A virtual hug until I can hold you for real.",
-            promise: "🤝 I promise to never let go of your hand.",
-            hug: "🫂 Closing the distance with a big warm hug!",
-            kiss: "💋 1000 kisses sent your way!",
-            valentine: "💖 Happy Valentine's Day! You are my forever."
+            rose: {
+                ani: "https://media.tenor.com/6n_i_R69F9AAAAAj/rose-cute.gif",
+                title: "Happy Rose Day!",
+                shayari: "Phullan wargi hassi teri, mere dil nu moh gayi... Je tu miliya mainu, meri duniya hi ho gayi. 🌹"
+            },
+            propose: {
+                ani: "https://media.tenor.com/2X8pG899uLMAAAAj/propose-cat.gif",
+                title: "Happy Propose Day!",
+                shayari: "Dil di gall kehni hai tenu, tu hi mera chain hai... Mere naal reh har pal, tu hi meri jaan hai. 💍"
+            },
+            choco: {
+                ani: "https://media.tenor.com/jXkYVvBv6y8AAAAj/chocolate-love.gif",
+                title: "Happy Chocolate Day!",
+                shayari: "Mithi-mithi chocolate varga hai tera pyaar... Tu hi mera sukoon hai, tu hi mera sansaar. 🍫"
+            },
+            teddy: {
+                ani: "https://media.tenor.com/U3C1mXpS47sAAAAj/teddy-bear.gif",
+                title: "Happy Teddy Day!",
+                shayari: "Bada pyara hai tu mere teddy wangu... Tenu dil ch lukaa ke rakhungi saari umar wangu. 🧸"
+            },
+            promise: {
+                ani: "https://media.tenor.com/p_WreS2t-0IAAAAj/promise.gif",
+                title: "Happy Promise Day!",
+                shayari: "Vaada kardi haan tera saath kade na chhadungi... Tere bina zindagi di koi gal na karrungi. 🤝"
+            },
+            hug: {
+                ani: "https://media.tenor.com/N6719hL3S7oAAAAj/hug-love.gif",
+                title: "Happy Hug Day!",
+                shayari: "Tenu ghut ke gal naal launa ae... Saari duniya nu bhul ke bas tera ho jaana ae. 🫂"
+            },
+            kiss: {
+                ani: "https://media.tenor.com/T0_S-0m-95MAAAAj/mochi-peach.gif",
+                title: "Happy Kiss Day!",
+                shayari: "Tere mathe nu chum ke saara dard bhula dena... Tenu apni jaan bana ke dil ch vasa lena. 💋"
+            },
+            valentine: {
+                ani: "https://media.tenor.com/7Yf_p2_Wv7MAAAAj/mochi-peach-cat-cat.gif",
+                title: "Happy Valentine's Day!",
+                shayari: "Tu hi mera rab hai, tu hi mera jahan... Tere bin adhura hai mera sara aasman. ❤️"
+            }
         };
+
         function openGift(day) {
-            document.getElementById('gift-display').innerHTML = `<h3>${day.toUpperCase()}</h3><p>${giftData[day]}</p>`;
+            const data = giftData[day];
+            document.getElementById('gift-display').innerHTML = `
+                <img src="${data.ani}" class="day-animation">
+                <h2 style="font-family: 'Dancing Script'; color: var(--hot-pink);">${data.title}</h2>
+                <p class="shayari">"${data.shayari}"</p>
+            `;
             document.getElementById('gift-modal').style.display = 'flex';
         }
         function closeModal() { document.getElementById('gift-modal').style.display = 'none'; }
@@ -252,6 +266,7 @@
             }, 3000);
         }
 
+        // No Button escape
         const noBtn = document.getElementById('noBtn');
         noBtn.addEventListener('mouseover', () => {
             noBtn.style.position = 'absolute';
